@@ -2,24 +2,44 @@
 *, *::before, *::after { box-sizing: border-box; }
 
 html, body, .stApp {
-    background: radial-gradient(circle at 50% 0%, #121c2e 0%, #080c14 100%);
+    background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
     background-attachment: fixed;
     font-family: 'Inter', sans-serif;
-    color: #c9d8e8;
+    color: #e2e8f0;
 }
 
-/* hide default streamlit chrome */
-#MainMenu, footer, header { visibility: hidden; }
-.block-container { padding: 0 !important; max-width: 100% !important; }
+/* hide default streamlit chrome but keep header for customisation */
+#MainMenu, footer { visibility: hidden; }
+header[data-testid="stHeader"] {
+    background: rgba(15, 23, 42, 0.75) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15) !important;
+    height: 60px !important;
+}
+header[data-testid="stHeader"]::after {
+    content: "Weather Advisory Bot";
+    position: absolute;
+    left: 60px; /* Space for the ☰ toggle button */
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #f8fafc;
+    letter-spacing: -0.01em;
+    pointer-events: none;
+}
+.block-container { padding: 0 !important; max-width: 100% !important; margin-top: 20px !important; }
 
 /* ── Sidebar ──────────────────────────────────── */
 [data-testid="stSidebar"] {
-    background: rgba(13, 20, 32, 0.65) !important;
+    background: rgba(15, 23, 42, 0.65) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
-    border-right: 1px solid rgba(78, 161, 255, 0.15) !important;
+    border-right: 1px solid rgba(148, 163, 184, 0.15) !important;
 }
-[data-testid="stSidebar"] .stMarkdown { color: #9abce0; }
+[data-testid="stSidebar"] .stMarkdown { color: #cbd5e1; }
 
 /* ── Main chat column ────────────────────────── */
 .main-col {
@@ -36,23 +56,23 @@ html, body, .stApp {
 }
 .hero-badge {
     display: inline-block;
-    background: rgba(78, 161, 255, 0.1);
-    border: 1px solid rgba(78, 161, 255, 0.3);
+    background: rgba(148, 163, 184, 0.1);
+    border: 1px solid rgba(148, 163, 184, 0.3);
     border-radius: 20px;
     padding: 6px 16px;
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: #6aabee;
+    color: #cbd5e1;
     text-transform: uppercase;
     margin-bottom: 16px;
-    box-shadow: 0 4px 12px rgba(78, 161, 255, 0.08);
+    box-shadow: 0 4px 12px rgba(148, 163, 184, 0.08);
 }
 .hero h1 {
     font-size: 38px !important;
     font-weight: 800 !important;
     margin: 0 0 12px 0 !important;
-    background: linear-gradient(135deg, #ffffff 0%, #7ee8fa 50%, #4ea1ff 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 50%, #94a3b8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -109,19 +129,19 @@ html, body, .stApp {
     transform: scale(1.05);
 }
 .avatar-user { 
-    background: linear-gradient(135deg, #1e3a6e, #2a5298); 
+    background: linear-gradient(135deg, #475569, #334155); 
 }
 .avatar-bot  { 
-    background: linear-gradient(135deg, #0d2137, #1a3a5c); 
-    border: 1px solid rgba(78, 161, 255, 0.4); 
+    background: linear-gradient(135deg, #0f172a, #1e293b); 
+    border: 1px solid rgba(148, 163, 184, 0.4); 
 }
 
 .bubble-user {
-    background: linear-gradient(135deg, #1e3560 0%, #1a2d54 100%);
-    border: 1px solid rgba(78, 130, 220, 0.35);
+    background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+    border: 1px solid rgba(148, 163, 184, 0.35);
     border-radius: 20px 20px 4px 20px;
     padding: 14px 18px;
-    color: #e0f0ff;
+    color: #f8fafc;
     font-size: 15px;
     line-height: 1.6;
     max-width: 100%;
@@ -130,10 +150,10 @@ html, body, .stApp {
 }
 .bubble-bot {
     background: rgba(255, 255, 255, 0.035);
-    border: 1px solid rgba(78, 161, 255, 0.15);
+    border: 1px solid rgba(148, 163, 184, 0.15);
     border-radius: 20px 20px 20px 4px;
     padding: 16px 20px;
-    color: #d1e5f5;
+    color: #f1f5f9;
     font-size: 15px;
     line-height: 1.7;
     max-width: 100%;
@@ -142,7 +162,7 @@ html, body, .stApp {
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
-.bubble-bot strong { color: #8bcffc; font-weight: 600; }
+.bubble-bot strong { color: #cbd5e1; font-weight: 600; }
 
 /* ── SOP severity badge ─────────────────────── */
 .sop-row {
@@ -177,8 +197,8 @@ html, body, .stApp {
 
 /* ── Weather card (sidebar) ─────────────────── */
 .wx-card {
-    background: rgba(78, 161, 255, 0.05);
-    border: 1px solid rgba(78, 161, 255, 0.2);
+    background: rgba(148, 163, 184, 0.05);
+    border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 16px;
     padding: 20px 18px;
     margin: 12px 0;
@@ -188,12 +208,12 @@ html, body, .stApp {
 .wx-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-    background: rgba(78, 161, 255, 0.08);
+    background: rgba(148, 163, 184, 0.08);
 }
 .wx-location {
     font-size: 13px;
     font-weight: 700;
-    color: #4ea1ff;
+    color: #94a3b8;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     margin-bottom: 16px;
@@ -246,7 +266,7 @@ html, body, .stApp {
     letter-spacing: 0.12em;
     margin: 24px 0 10px 0;
     padding-bottom: 8px;
-    border-bottom: 1px solid rgba(78, 161, 255, 0.1);
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
 }
 
 /* ── Example prompt chips ────────────────────── */
@@ -259,37 +279,37 @@ html, body, .stApp {
     animation: fadeInDown 0.6s ease-out 0.1s both;
 }
 .chip {
-    background: rgba(78, 161, 255, 0.06);
-    border: 1px solid rgba(78, 161, 255, 0.25);
+    background: rgba(148, 163, 184, 0.06);
+    border: 1px solid rgba(148, 163, 184, 0.25);
     border-radius: 20px;
     padding: 8px 16px;
     font-size: 13px;
     font-weight: 500;
-    color: #7ab5f5;
+    color: #cbd5e1;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
     white-space: nowrap;
 }
 .chip:hover {
-    background: rgba(78, 161, 255, 0.15);
-    border-color: rgba(78, 161, 255, 0.5);
-    color: #b3d7ff;
+    background: rgba(148, 163, 184, 0.15);
+    border-color: rgba(148, 163, 184, 0.5);
+    color: #f1f5f9;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(78, 161, 255, 0.15);
+    box-shadow: 0 4px 12px rgba(148, 163, 184, 0.15);
 }
 
 /* ── Divider ─────────────────────────────────── */
 .thin-divider {
     border: none;
-    border-top: 1px solid rgba(78, 161, 255, 0.1);
+    border-top: 1px solid rgba(148, 163, 184, 0.1);
     margin: 16px 0 24px 0;
 }
 
 /* ── Streamlit button overrides ──────────────── */
 .stButton > button {
-    background: rgba(78, 161, 255, 0.08) !important;
-    border: 1px solid rgba(78, 161, 255, 0.3) !important;
-    color: #6aabee !important;
+    background: rgba(148, 163, 184, 0.08) !important;
+    border: 1px solid rgba(148, 163, 184, 0.3) !important;
+    color: #cbd5e1 !important;
     border-radius: 10px !important;
     font-size: 13px !important;
     font-weight: 600 !important;
@@ -297,52 +317,73 @@ html, body, .stApp {
     transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
 }
 .stButton > button:hover {
-    background: rgba(78, 161, 255, 0.2) !important;
-    border-color: rgba(78, 161, 255, 0.6) !important;
+    background: rgba(148, 163, 184, 0.2) !important;
+    border-color: rgba(148, 163, 184, 0.6) !important;
     color: #ffffff !important;
     transform: translateY(-1px) !important;
-    box-shadow: 0 4px 12px rgba(78, 161, 255, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(148, 163, 184, 0.2) !important;
 }
 
 /* ── Chat input ──────────────────────────────── */
 [data-testid="stChatInput"] {
     background: transparent !important;
-    padding-bottom: 20px !important;
+    padding-bottom: 24px !important;
+}
+[data-testid="stChatInput"] > div {
+    background: rgba(15, 23, 42, 0.6) !important;
+    border: 1px solid rgba(148, 163, 184, 0.25) !important;
+    border-radius: 24px !important;
+    padding: 4px 8px !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.3s ease !important;
+}
+[data-testid="stChatInput"] > div:focus-within {
+    border-color: rgba(148, 163, 184, 0.6) !important;
+    box-shadow: 0 10px 40px rgba(148, 163, 184, 0.15) !important;
+    background: rgba(15, 23, 42, 0.8) !important;
 }
 [data-testid="stChatInput"] textarea {
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(78, 161, 255, 0.25) !important;
-    border-radius: 14px !important;
-    color: #e0f0ff !important;
+    background: transparent !important;
+    border: none !important;
+    color: #f8fafc !important;
     font-family: 'Inter', sans-serif !important;
     font-size: 15px !important;
-    padding: 14px 16px !important;
-    transition: all 0.2s ease !important;
-    backdrop-filter: blur(10px) !important;
+    padding: 12px 16px !important;
+    box-shadow: none !important;
 }
 [data-testid="stChatInput"] textarea:focus {
-    border-color: rgba(78, 161, 255, 0.6) !important;
-    box-shadow: 0 0 0 4px rgba(78, 161, 255, 0.15) !important;
-    background: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: none !important;
 }
 [data-testid="stChatInput"] button {
-    color: #4ea1ff !important;
-    background: transparent !important;
+    background: rgba(148, 163, 184, 0.1) !important;
+    border-radius: 50% !important;
+    width: 38px !important;
+    height: 38px !important;
+    color: #e2e8f0 !important;
+    margin: auto 8px auto auto !important;
+    transition: all 0.2s ease !important;
 }
 [data-testid="stChatInput"] button:hover {
-    color: #a8d0f8 !important;
+    background: rgba(148, 163, 184, 0.3) !important;
+    color: #ffffff !important;
+    transform: scale(1.05) !important;
+}
+[data-testid="stChatInput"] button:active {
+    transform: scale(0.95) !important;
 }
 
 /* ── Spinner ─────────────────────────────────── */
-.stSpinner > div { border-top-color: #4ea1ff !important; }
+.stSpinner > div { border-top-color: #94a3b8 !important; }
 
 /* ── Scrollbar ───────────────────────────────── */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); }
 ::-webkit-scrollbar-thumb { 
-    background: rgba(78, 161, 255, 0.2); 
+    background: rgba(148, 163, 184, 0.2); 
     border-radius: 4px; 
 }
 ::-webkit-scrollbar-thumb:hover { 
-    background: rgba(78, 161, 255, 0.4); 
+    background: rgba(148, 163, 184, 0.4); 
 }

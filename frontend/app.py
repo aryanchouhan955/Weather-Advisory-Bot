@@ -22,7 +22,7 @@ from agent.graph import graph
 
 st.set_page_config(
     page_title="Weather Advisory Bot",
-    page_icon="🌤️",
+    page_icon=os.path.join(os.path.dirname(__file__), "favicon.jpg"),
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -218,18 +218,18 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# Suggested prompts (shown only when no history)
 if not st.session_state.chat_history:
-    st.markdown("""
-<div class="chip-row">
-    <span class="chip">🚲 Cycling in Bhopal</span>
-    <span class="chip">👧 Kids at park in Chennai</span>
-    <span class="chip">🧺 Picnic in Pune</span>
-    <span class="chip">👴 Elderly walk in Delhi</span>
-    <span class="chip">🚗 Drive to Mumbai</span>
-    <span class="chip">🐕 Walk the dog in Jaipur</span>
-</div>
-""", unsafe_allow_html=True)
+    st.markdown('<div style="margin-top:20px;"></div>', unsafe_allow_html=True)
+    c1, c2, c3 = st.columns(3)
+    prompts = [
+        "🚲 Cycling in Bhopal", "👧 Kids at park in Chennai", "🧺 Picnic in Pune",
+        "👴 Elderly walk in Delhi", "🚗 Drive to Mumbai", "🐕 Walk the dog in Jaipur"
+    ]
+    for i, p in enumerate(prompts):
+        col = [c1, c2, c3][i % 3]
+        if col.button(p, use_container_width=True, key=f"chip_{i}"):
+            st.session_state.prefill_prompt = p
+            st.rerun()
 
 st.markdown('<hr class="thin-divider">', unsafe_allow_html=True)
 
@@ -286,6 +286,24 @@ st.markdown('</div>', unsafe_allow_html=True)  # close main-col
 # ── Chat input ────────────────────────────────────────────────────────────────
 
 user_input = st.chat_input("Ask about outdoor safety — e.g. 'Is it safe to cycle in Delhi today?'")
+
+if getattr(st.session_state, "prefill_prompt", None):
+    import streamlit.components.v1 as components
+    p = st.session_state.prefill_prompt
+    js = f"""
+    <script>
+    const textarea = window.parent.document.querySelector('[data-testid="stChatInput"] textarea');
+    if (textarea) {{
+        textarea.value = `{p}`;
+        const tracker = textarea._valueTracker;
+        if (tracker) tracker.setValue('');
+        textarea.dispatchEvent(new Event('input', {{ bubbles: true }}));
+        textarea.focus();
+    }}
+    </script>
+    """
+    components.html(js, height=0, width=0)
+    st.session_state.prefill_prompt = None
 
 if user_input and user_input.strip():
     st.session_state.chat_history.append({"role": "user", "content": user_input})
