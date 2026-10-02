@@ -239,7 +239,35 @@ def match_override_sop(sop: dict, weather: dict) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# 4. Advice Formatter
+# 4. Activity Keyword Extractor
+# ---------------------------------------------------------------------------
+
+def get_all_activity_keywords(sops: list[dict]) -> set[str]:
+    """
+    Collect every activity keyword from every SOP in the list.
+
+    Scans:
+      - conditions with field="activity" and operator="contains_any" (numeric SOPs)
+      - activity_keywords list (composite SOPs like GEN-001)
+
+    Returns a flat set of lowercase keyword strings. Used by no_sop_reply to
+    distinguish "recognised activity, no hazard today" from "genuinely out of scope".
+    """
+    keywords: set[str] = set()
+    for sop in sops:
+        # Composite SOPs: activity_keywords list
+        for kw in sop.get("activity_keywords", []):
+            keywords.add(kw.lower())
+        # Numeric SOPs: conditions with field="activity"
+        for cond in sop.get("conditions", []):
+            if cond.get("field") == "activity" and cond.get("operator") == "contains_any":
+                for kw in cond.get("value", []):
+                    keywords.add(kw.lower())
+    return keywords
+
+
+# ---------------------------------------------------------------------------
+# 5. Advice Formatter
 # ---------------------------------------------------------------------------
 
 def format_advice(advice_template: str, weather: dict) -> str:
