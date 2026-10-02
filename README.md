@@ -1,5 +1,7 @@
 # Weather Advisory Support Bot
 
+**[🔴 Live Demo](https://weather-advisory-bot-1.streamlit.app/)**
+
 ![Weather Advisory Bot UI](image.png)
 
 A conversational AI agent that answers outdoor activity safety questions using **live weather data** and **deterministic safety policies** — no hallucinated numbers, no invented advice.
