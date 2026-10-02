@@ -1,6 +1,6 @@
 # Weather Advisory Support Bot
 
-![Weather Advisory Bot UI](screenshot.png)
+![Weather Advisory Bot UI](image.png)
 
 A conversational AI agent that answers outdoor activity safety questions using **live weather data** and **deterministic safety policies** — no hallucinated numbers, no invented advice.
 
