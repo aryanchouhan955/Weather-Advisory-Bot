@@ -1,0 +1,102 @@
+# =============================================================================
+# STANDARD OPERATING PROCEDURES — General
+# =============================================================================
+# GEN-001 uses type: composite — a weighted scoring approach for fuzzy questions
+# like "is it a good day for a picnic" where no single threshold captures the answer.
+#
+# GEN-002 uses type: override — it fires on severe multi-metric weather situations
+# and takes priority over all other SOPs regardless of activity.
+# =============================================================================
+
+- id: GEN-001
+  category: general
+  name: Picnic and Outdoor Leisure Suitability
+  severity: variable
+  type: composite
+  # Composite SOPs use a scoring system instead of hard thresholds.
+  # Each sub_condition awards points if met. Total score determines advice level.
+  # score 4-5: Great day     score 3: Acceptable     score 1-2: Not ideal    score 0: Avoid
+  sub_conditions:
+    - field: precipitation_probability
+      operator: "<"
+      value: 30
+      points: 1
+      label: "Low rain chance"
+    - field: wind_speed_10m
+      operator: "<"
+      value: 25
+      points: 1
+      label: "Comfortable wind"
+    - field: temperature_2m
+      operator: between
+      value: [18, 30]
+      points: 1
+      label: "Pleasant temperature"
+    - field: uv_index
+      operator: "<"
+      value: 7
+      points: 1
+      label: "Manageable UV"
+    - field: cloud_cover
+      operator: "<="
+      value: 60
+      points: 1
+      label: "Mostly clear sky"
+  activity_keywords: ["picnic", "barbecue", "bbq", "outdoor lunch", "outdoor dining",
+                      "park", "garden", "leisure", "relax outside", "sit outside",
+                      "outdoor gathering", "family outing", "day out"]
+  advice_levels:
+    great: >
+      Conditions look excellent for a picnic today.
+      Temperature is {temperature_2m} deg C, wind is light at {wind_speed_10m} km/h,
+      rain chance is only {precipitation_probability}%, and UV is manageable at {uv_index}.
+      Pack sunscreen and enjoy the day.
+    acceptable: >
+      Conditions are acceptable for outdoor leisure, though not ideal.
+      Temperature is {temperature_2m} deg C, wind at {wind_speed_10m} km/h,
+      precipitation chance is {precipitation_probability}%.
+      Bring a light jacket and keep an eye on the sky — conditions may shift.
+    not_ideal: >
+      Today is not ideal for a picnic. One or more factors are unfavourable:
+      temperature {temperature_2m} deg C, wind {wind_speed_10m} km/h,
+      rain chance {precipitation_probability}%, UV index {uv_index}.
+      Consider an indoor alternative or a shorter outdoor break in a sheltered spot.
+    avoid: >
+      Outdoor leisure is not recommended today. Conditions are poor across multiple
+      factors: temperature {temperature_2m} deg C, wind {wind_speed_10m} km/h,
+      rain chance {precipitation_probability}%, UV index {uv_index}.
+      We recommend staying indoors or postponing to a better day.
+  cite: "SOP GEN-001 — Picnic and Outdoor Leisure Suitability"
+
+- id: GEN-002
+  category: general
+  name: Active Severe Weather System Override
+  severity: critical
+  type: override
+  # This SOP fires when multiple high-severity metrics are simultaneously elevated,
+  # indicating a rain system or severe weather event — even if no single number
+  # looks extreme in isolation.
+  # Requires at least 2 of these 3 trigger conditions to be true.
+  trigger_conditions:
+    - field: precipitation_probability
+      operator: ">="
+      value: 80
+    - field: precipitation
+      operator: ">="
+      value: 10
+    - field: wind_gusts_10m
+      operator: ">="
+      value: 50
+  min_triggers: 2
+  advice: >
+    Weather data for your location indicates a severe weather system may be active.
+    Precipitation probability: {precipitation_probability}%,
+    current precipitation: {precipitation} mm,
+    wind gusts: {wind_gusts_10m} km/h.
+    Under these conditions, all outdoor activities carry elevated risk regardless
+    of the specific activity. Heavy rainfall can cause localised flooding,
+    waterlogging, and significantly reduced visibility. Strong gusts increase
+    risk for cyclists, pedestrians, and vehicles.
+    Check local meteorological authority alerts before going outside.
+    Unless essential, postpone all outdoor plans until conditions improve.
+  cite: "SOP GEN-002 — Active Severe Weather System Override"

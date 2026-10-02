@@ -1,0 +1,93 @@
+# =============================================================================
+# STANDARD OPERATING PROCEDURES — Outdoor Exercise
+# =============================================================================
+# Format:
+#   id          : unique SOP identifier (never change once deployed)
+#   category    : grouping label
+#   name        : short human-readable name
+#   severity    : critical | high | medium | low
+#   type        : numeric | composite | override
+#   conditions  : list of conditions (ALL must be true — AND logic)
+#   advice      : advice text; use {field_name} to inject live weather values
+#   cite        : citation string shown to users in the reply
+# =============================================================================
+
+- id: OE-001
+  category: outdoor_exercise
+  name: High Wind Cycling Risk
+  severity: high
+  type: numeric
+  conditions:
+    - field: wind_speed_10m
+      operator: ">="
+      value: 40
+    - field: activity
+      operator: contains_any
+      value: ["cycling", "cycle", "bike", "biking", "bicycle", "two-wheeler", "scooter"]
+  advice: >
+    Current wind speed is {wind_speed_10m} km/h (gusts up to {wind_gusts_10m} km/h),
+    which exceeds the 40 km/h safe threshold for cycling.
+    This is a safety risk, not just a comfort issue — crosswinds at this speed
+    can destabilise a bicycle or two-wheeler unexpectedly.
+    Avoid cycling until winds drop below 35 km/h.
+  cite: "SOP OE-001 — High Wind Cycling Risk"
+
+- id: OE-002
+  category: outdoor_exercise
+  name: Extreme UV Outdoor Exercise
+  severity: high
+  type: numeric
+  conditions:
+    - field: uv_index
+      operator: ">="
+      value: 8
+    - field: hour_of_day
+      operator: between
+      value: [11, 16]
+  advice: >
+    UV index is currently {uv_index}, which is classified as Very High to Extreme
+    (scale: 8+ = Very High, 11+ = Extreme). Between 11am and 4pm this poses a
+    significant risk of sunburn, heat exhaustion, and long-term skin damage during
+    outdoor exercise. Reschedule physical activity to before 10am or after 5pm.
+    If outdoor exposure is unavoidable, apply SPF 50+ sunscreen, wear a hat,
+    and limit continuous sun exposure to under 20 minutes.
+  cite: "SOP OE-002 — Extreme UV Outdoor Exercise"
+
+- id: OE-003
+  category: outdoor_exercise
+  name: Heavy Rain Running Advisory
+  severity: medium
+  type: numeric
+  conditions:
+    - field: precipitation_probability
+      operator: ">="
+      value: 70
+    - field: activity
+      operator: contains_any
+      value: ["running", "jogging", "jog", "run", "walk", "walking", "hiking", "hike", "trekking"]
+  advice: >
+    Precipitation probability is {precipitation_probability}%, with current
+    precipitation at {precipitation} mm. Running or walking in heavy rain increases
+    slip risk, reduces visibility, and raises the risk of hypothermia in cooler
+    temperatures. Consider an indoor workout alternative today or wait for a
+    dry window. If you must go out, wear high-visibility clothing and avoid
+    unlit or flooded routes.
+  cite: "SOP OE-003 — Heavy Rain Running Advisory"
+
+- id: OE-004
+  category: outdoor_exercise
+  name: Thunderstorm Outdoor Exercise Ban
+  severity: critical
+  type: numeric
+  conditions:
+    - field: weathercode
+      operator: in
+      value: [95, 96, 99]
+  advice: >
+    Current weather conditions indicate an active thunderstorm (condition code {weathercode}).
+    All outdoor exercise must be suspended immediately. Lightning strikes are
+    unpredictable and can be fatal — open spaces, elevated terrain, trees, and
+    water bodies are all high-risk zones. Move indoors and stay away from
+    windows. Do not resume outdoor activity until the thunderstorm has completely
+    passed and at least 30 minutes have elapsed since the last thunder.
+  cite: "SOP OE-004 — Thunderstorm Outdoor Exercise Ban"

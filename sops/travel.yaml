@@ -1,0 +1,72 @@
+# =============================================================================
+# STANDARD OPERATING PROCEDURES — Travel
+# =============================================================================
+
+- id: TR-001
+  category: travel
+  name: High Precipitation Travel Delay Risk
+  severity: medium
+  type: numeric
+  conditions:
+    - field: precipitation_probability
+      operator: ">="
+      value: 70
+    - field: activity
+      operator: contains_any
+      value: ["travel", "travelling", "traveling", "drive", "driving", "road trip",
+              "commute", "commuting", "trip", "journey", "flight", "airport", "train"]
+  advice: >
+    Precipitation probability is {precipitation_probability}% with current rainfall
+    at {precipitation} mm. Heavy rain frequently causes traffic delays, road flooding,
+    reduced visibility, and disruptions to public transport and flights.
+    Check for weather alerts from local authorities before departing.
+    Allow extra travel time, follow diversion signs, and avoid low-lying roads
+    or underpasses that may be flooded. If travelling by air, confirm flight status
+    with your airline before heading to the airport.
+  cite: "SOP TR-001 — High Precipitation Travel Delay Risk"
+
+- id: TR-002
+  category: travel
+  name: Low Visibility Driving Hazard
+  severity: high
+  type: numeric
+  conditions:
+    - field: visibility
+      operator: "<="
+      value: 1000
+    - field: activity
+      operator: contains_any
+      value: ["drive", "driving", "car", "road trip", "commute", "travel", "travelling",
+              "traveling", "bike", "biking", "motorcycle", "scooter"]
+  advice: >
+    Visibility is currently {visibility} metres, which is below the safe driving
+    threshold of 1000 metres. This may be caused by fog, heavy rain, or dust.
+    Low visibility significantly increases collision risk for all road users.
+    If driving is unavoidable: use low-beam headlights and fog lights,
+    reduce speed by at least 30%, increase following distance to 4+ seconds,
+    and pull over safely if visibility drops further. Consider delaying travel
+    until conditions improve.
+  cite: "SOP TR-002 — Low Visibility Driving Hazard"
+
+- id: TR-003
+  category: travel
+  name: Extreme Heat Travel Advisory
+  severity: medium
+  type: numeric
+  conditions:
+    - field: temperature_2m
+      operator: ">="
+      value: 40
+    - field: activity
+      operator: contains_any
+      value: ["travel", "travelling", "traveling", "drive", "driving", "commute",
+              "trip", "journey", "walk", "walking"]
+  advice: >
+    Temperature is {temperature_2m} deg C (feels like {apparent_temperature} deg C),
+    which is classified as extreme heat. Prolonged exposure while travelling —
+    especially in vehicles without adequate air conditioning — poses a risk of
+    heat stroke. Carry at least 1 litre of water per person per hour of travel.
+    Avoid travelling during peak heat hours (12pm–4pm) if possible.
+    Never leave children, elderly persons, or pets in a parked vehicle.
+    Check on vulnerable companions regularly.
+  cite: "SOP TR-003 — Extreme Heat Travel Advisory"

@@ -1,0 +1,75 @@
+# =============================================================================
+# STANDARD OPERATING PROCEDURES — Vulnerable Groups
+# (Children, Elderly, Pets)
+# =============================================================================
+
+- id: VG-001
+  category: vulnerable_groups
+  name: UV Risk for Children Outdoors
+  severity: high
+  type: numeric
+  conditions:
+    - field: uv_index
+      operator: ">="
+      value: 6
+    - field: activity
+      operator: contains_any
+      value: ["kid", "kids", "child", "children", "toddler", "baby", "infant",
+              "son", "daughter", "playground", "park", "school", "play", "playing"]
+  advice: >
+    UV index is {uv_index}, which is High to Very High. Children's skin is
+    significantly more sensitive to UV radiation than adult skin — the same
+    UV index causes faster and more severe damage in children.
+    Limit outdoor play to shaded areas only. Apply SPF 30+ sunscreen to all
+    exposed skin at least 20 minutes before going out, and reapply every 90 minutes.
+    Ensure children wear a wide-brimmed hat and UV-protective clothing.
+    Avoid direct sun exposure between 11am and 4pm.
+  cite: "SOP VG-001 — UV Risk for Children Outdoors"
+
+- id: VG-002
+  category: vulnerable_groups
+  name: Elderly Heat Advisory
+  severity: high
+  type: numeric
+  conditions:
+    - field: apparent_temperature
+      operator: ">="
+      value: 35
+    - field: activity
+      operator: contains_any
+      value: ["elderly", "elder", "grandma", "grandpa", "grandmother", "grandfather",
+              "senior", "old", "aged", "aging", "ageing", "parent", "mom", "dad",
+              "mother", "father", "walk", "stroll", "outing", "outside", "outdoor"]
+  advice: >
+    Feels-like temperature is {apparent_temperature} deg C (actual: {temperature_2m} deg C),
+    which presents a significant heat risk for elderly individuals. Older adults are
+    less able to regulate body temperature and are at elevated risk of heat exhaustion
+    and heat stroke, which can develop quickly and be life-threatening.
+    Keep the elderly person indoors in a cool, ventilated space. Ensure they drink
+    water regularly (even if not thirsty). If outdoor activity is necessary,
+    limit it to early morning (before 9am) or evening (after 6pm), keep it under
+    15 minutes, and have someone accompany them.
+  cite: "SOP VG-002 — Elderly Heat Advisory"
+
+- id: VG-003
+  category: vulnerable_groups
+  name: Pet Heat and Safety Warning
+  severity: medium
+  type: numeric
+  conditions:
+    - field: temperature_2m
+      operator: ">="
+      value: 32
+    - field: activity
+      operator: contains_any
+      value: ["dog", "pet", "puppy", "cat", "animal", "walk the dog", "dog walk",
+              "paw", "fur", "outdoor with pet"]
+  advice: >
+    Temperature is {temperature_2m} deg C (feels like {apparent_temperature} deg C).
+    Pavement and asphalt can reach 60-70 deg C on hot days, which can burn pet paws
+    in under 60 seconds. Dogs are also at high risk of heat stroke at these temperatures.
+    Walk pets only in the early morning (before 8am) or after sunset.
+    Test pavement temperature with the back of your hand — if it is uncomfortable
+    after 5 seconds, it is unsafe for paws. Carry water for your pet and watch
+    for signs of heat stroke: excessive panting, drooling, or collapse.
+  cite: "SOP VG-003 — Pet Heat and Safety Warning"
