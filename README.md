@@ -1,6 +1,6 @@
 # Weather Advisory Support Bot
 
-**[🔴 Live Demo](https://weather-advisory-bot-1.streamlit.app/)**
+**[Live Demo](https://weather-advisory-bot-1.streamlit.app/)**
 
 ![Weather Advisory Bot UI](image.png)
 
